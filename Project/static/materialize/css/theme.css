@@ -25,11 +25,11 @@
 }
 
 .height-fixed{
-	height: 310px;
+	height: 340px;
 }
 
 .height-fixed-2{
-	height: 550px;
+	height: 570px;
 	margin-bottom: 0px;
 }
 
@@ -311,7 +311,7 @@
     margin-left: 10px;
     margin-right: 10px;
 }
-#notes-list li:nth-child(odd) .collapsible-header label{
+/*#notes-list li:nth-child(odd) .collapsible-header label{
     color: black;
 }
 #notes-list li:nth-child(even) .collapsible-header label{
@@ -325,7 +325,7 @@
 }
 .collapsible-body{
   color: black;
-}
+}*/
 
 /*for file input*/
 .file_input_div {
@@ -572,4 +572,3 @@
     animation:animateIn .7s ease;
     -webkit-animation:animateIn .7s ease;
 }
-

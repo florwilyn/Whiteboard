@@ -20,6 +20,9 @@ $('#chat-form').on('submit', function(event){
 
 $('#add_member').on('submit', function(event){
     event.preventDefault();
+    $("#memberbutton").html('');
+    // document.getElementByClass('no-text').style.display = 'block';
+    $(".no-text").attr('class', 'fa fa-spinner fa-spin');
 
     $.ajax({
         url : '/add_member/',
@@ -31,7 +34,8 @@ $('#add_member').on('submit', function(event){
         success : function(json){
             // $('#add_membermodal').modal('hide');
             $('#members-list').append('<li><img class="member-img" src="'+json.photo+'"><span class="users-list-name">'+json.first_name+'</span></li>');
-            
+            swal(json.first_name, "has been added.", "success")
+            $("#memberbutton").html('Add');
         }
     });
 });
@@ -51,11 +55,13 @@ $('#add_note').on('submit', function(event){
             $('#notes-list').append('<li><div class="collapsible-header">'+json.note+'<span class="new badge amber"></span></div><div class="collapsible-body"><span>'+json.note+'</span></div></li>');
             var chatlist = document.getElementById('notes-list');
             chatlist.scrollTop = chatlist.scrollHeight;
-            $("#modal-title").fadeOut(function() {
-          $(this).text("Noted").fadeIn();
-        });
-            $('#note').val("");
-            document.getElementById('loading').style.display = 'none';
+
+            swal("Noted", "", "success")
+        //     $("#modal-title").fadeOut(function() {
+        //   $(this).text("Noted").fadeIn();
+        // });
+        //     $('#note').val("");
+        //     document.getElementById('loading').style.display = 'none';
         }
     });
 });
@@ -72,43 +78,11 @@ $('#add_group').on('submit', function(event){
 
         success : function(json){
             $('#groups').prepend('<li><a href="/group/' + json.id + '">'+ json.newgroup +'</a></li>');
+            swal("A new meber added.", "Do you want to write another?", "success")
         }
     });
 });
 
-
-
-
-function getMessages(){
-    if (!scrolling) {
-        $.get('/chat/'+ $('#group_id').val(), function(chat){
-            $('#msg-list').html(chat);
-            var chatlist = document.getElementById('msg-list');
-            chatlist.scrollTop = chatlist.scrollHeight;
-        });
-    }
-    scrolling = false;
-}
-
-var scrolling = false;
-$(function(){
-    $('#msg-list').on('scroll', function(){
-        scrolling = true;
-    });
-    refreshTimer = setInterval(getMessages, 500);
-});
-
-$(document).ready(function() {
-     $('#send').attr('disabled','disabled');
-     $('#message').keyup(function() {
-        if($(this).val() != '') {
-           $('#send').removeAttr('disabled');
-        }
-        else {
-        $('#send').attr('disabled','disabled');
-        }
-     });
- });
 
 // using jQuery
 function getCookie(name) {
