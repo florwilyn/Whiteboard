@@ -8,8 +8,10 @@
   <link rel="stylesheet" type="text/css" href="{% static 'materialize/css/theme.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'materialize/css/dropify.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'materialize/css/dropify.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'sweetalert/sweetalert2.css' %}">
   <!-- <link rel="stylesheet" type="text/css" href="{% static 'materialize/css/demo.css' %}"> -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <!-- for profile -->
 </head>
 <body>
@@ -26,9 +28,9 @@
     <li class="divider"></li>
     <li><a href="#add_group" data-target="add_groupmodal">Create group</a></li>
   </ul>
-  <nav class="nav-color">
+  <nav id="whiteboard" style="background-size: cover">
     <div class="nav-wrapper nav-wrap">
-      <a href="#!" class="brand-logo logo-pad"><b>Whiteboard</b></a>
+      <a href="#!" class="brand-logo logo-pad" style="margin-left: 90px"><b>Whiteboard</b></a>
       <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
         <li><a href="sass.html"></a></li>
@@ -59,5 +61,8 @@
   <script type="text/javascript" src="{% static 'materialize/js/theme.js' %}"></script>
   <script type="text/javascript" src="{% static 'materialize/js/dropify.js' %}"></script>
   <script type="text/javascript" src="{% static 'materialize/js/dropify.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'sweetalert/sweetalert2.min.js' %}"></script>
   <script src="{% static 'whiteboard.js' %}"></script>
+  {% block script %}
+  {% endblock %}
 </html>

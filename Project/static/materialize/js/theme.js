@@ -13,15 +13,15 @@ $(document).ready(function(){
     $('.modal').modal();
   });
 
-$(document).ready(function(){
-    $('#note').click(function() {
-    	$(this).toggleClass('clicked');
-    	$("#modal-title").fadeOut(function() {
-		  $(this).text("Add a note").fadeIn();
-		});
-    	$('#note').trigger('click');
-    }); 
-});
+// $(document).ready(function(){
+//     $('#note').click(function() {
+//     	$(this).toggleClass('clicked');
+//     	$("#modal-title").fadeOut(function() {
+// 		  $(this).text("Add a note").fadeIn();
+// 		});
+//     	$('#note').trigger('click');
+//     }); 
+// });
 
 $(document).ready(function(){
    document.getElementById('page-load').style.display = 'none';

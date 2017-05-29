@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'Project',
     'whiteboard',
     'user_profile',
+    'channels',
 ]
 
 MIDDLEWARE_CLASSES = [
