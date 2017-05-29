@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class=" col s12 m6 l3">
+	<div class="card indigo lighten-5" style="height: 225px; margin-bottom: 5px">
+	    <div class="card-content black-text pull-down" style="padding: 5px;">
+	        <span class="card-title center">Freedom Board</span>
+	        <div class="divider"></div>    
+			<textarea id="wall" rows="7" style="height:auto; margin-top: 7px"></textarea>	    
+	    </div>
+    </div>
+    <div class="card indigo lighten-5 height-fixed" style="margin-bottom: 0px">
+	    <div class="card-content black-text pull-down" style="padding: 5px;">
+	        <span class="card-title" style="margin-bottom: 15px"><b>Members</b><a class="btn-floating waves-effect waves-light teal darken-4 right" style=" margin-left: 5px"><i class="material-icons" style="margin-top: 3px;">add_alert</i></a><a class="btn-floating waves-effect waves-light teal darken-4 right" href="#add_membermodal" data-target="add_membermodal" style="margin-right: 5px"><i class="material-icons" style="margin-top: 3px">supervisor_account</i></a></span>
+	        <div class="divider" style="margin-top: 3px"></div>
+	        <ul class="users-list" id="members-list" style="height: 100%; overflow: auto; margin-bottom: 5px; margin-top: 10px">
+	            {% for member in members %}
+		            <li>
+		            	<img class="member-img" src="{{ member.member.prof_pic.url }}">
+		            	<span class="users-list-name">{{member.member.first_name}}</span>
+		            </li>
+		        {% endfor %}
+	        </ul>
+	    </div>
+	    <!-- <div class="card-action center" style="padding: 10px">
+	        <a href="#add_membermodal" data-target="add_membermodal">Add a member</a>
+	    </div> -->
+    </div>
+</div>
+<div class="col s12 m6 l5 x-margin"> 
+	<div class="card indigo lighten-5 height-fixed-2">
+	    <div class="card-content black-text pull-down" style="padding: 5px">
+	        <span class="card-title" style="border-bottom-color: black; text-align: center;"><a class="btn-floating waves-effect waves-light right" style="margin-right: 5px; background-color: #f2395b"><i class="material-icons" style="margin-top: 3px">forum</i></a><b>{{ group_name }}</b></span>
+	        <div class="divider"></div>
+	        <div class="chat" style="height: 91%">
+	            <ul style="overflow: auto; height: 100%" id="msg-list">
+	               	{% for chat in group_chat %}
+	               		{% if user.id != chat.sender.id %} 
+						    <li class="you">
+						        <a class="user" href="#"><img alt="" src="{{ chat.sender.prof_pic.url }}" /></a>
+						        <div class="date"><b>
+						          {{ chat.sender.first_name }} {{ chat.sender.last_name }}</b>     
+						        	{{ chat.date_sent }}
+						        </div>
+						        <div class="message" id="other-color">
+						          <p>{{ chat.content }}</p>
+						        </div>
+      						</li>
+      					{% else %}
+      						<li class="other">
+							    <a class="user" href="#"><img alt="" src="{{ chat.sender.prof_pic.url }}" /></a>
+							    <div class="date">{{ chat.date_sent }}     <b>{{ chat.sender.first_name }} {{ chat.sender.last_name }}</b></div>
+							    <div class="message" id="you-color">
+							        <p>{{ chat.content }}</p>
+							    </div>
+							</li>
+						{% endif %}
+					{% endfor %}
+	               		</ul>
+	               	</div>            
+			     </div>
+			     <div class="divider"></div>
+	            <div class="footer green lighten-5">
+	            <form id="chat-form" method="post" action="/post/">
+		            <input type="hidden" name="recipient_id" id="recipient_id" value= {{ group_id }}>
+	              <input type="hidden" name="sender_id" id="sender_id" value={{ user.user.id }}>
+		              <div class="input-field col s12 m4 l8" style="width: 87%;" id="chat-msg">
+			          <input id="message" type="text" class="validate">
+			          <label for="message" class="text-indigo darken-4">Type a new message</label>
+			        </div>
+			 
+			        <button type="submit" class="btn-floating btn-large s12 m4 l2 teal darken-4" id="send" style="margin-top: 5px; float: left;"><i class="material-icons right">send</i></button>
+			      </form>
+	            </div>
+	        </div>
+	    </div>
+	    <div class="col s12 m6 l3">
+	        <div class="card indigo lighten-5" style="height: 545px;">
+	            <div class="card-content black-text pull-down" style="padding: 0px; height: 92%">
+	              <span class="card-title" style="padding: 5px"><b>Notes</b><a href="#add_notemodal" data-target="add_notemodal" class="btn-floating waves-effect waves-light cyan accent-4 right" style=" margin-left: 5px"><i class="material-icons" style="margin-top: 3px;">mode_edit</i></a><a class="btn-floating waves-effect waves-light red accent-4 right"><i class="material-icons" style="margin-top: 3px">delete</i></a></span>
+	              <!-- <a href="#" class=""><i class="mdi mdi-home material-icons right">delete</i></a></span> -->
+		                <!-- <ul class="collapsible popout collapsible-accordion" data-collapsible="accordion" id="notes-list" style="overflow: auto; height: 80%">
+		                {% for note in notes %}
+					    <li class="collection-item dismissable" style="touch-action: pan-y; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+					    <input type="checkbox" id="test5" />	
+					      <div class="collapsible-header">{{note.note}}</div>
+					      <div class="collapsible-body"><span>{{note.note}}</span></div>
+					    </li>
+					   {% endfor %}
+					  </ul> -->
+					  
+					    <form action="#">
+					    <ul class="collapsible collapsible-accordion" data-collapsible="accordion" id="notes-list" style="overflow: auto; height: 80%">
+					    	{% for note in notes %}
+					    	<li class="box-list">
+						    <div class="collapsible-header">
+						      <input type="checkbox" id="{{note.id}}" />
+						      <label for="{{note.id}}">{{note.note}}</label>
+						    </div>
+						    <div class="collapsible-body"><span>{{note.note}}</span></div>
+						    </li>
+						    {% endfor %}
+						</ul>
+					  </form>
+	            </div>
+	            <!-- <div class="card-action center">
+	              <a href="#add_notemodal" data-target="add_notemodal">Add a note</a>
+	            </div> -->
+	        </div>
+        </div>
+	    <div id="add_notemodal" class="modal" style="width: 40%;">
+		    	<h5 style="text-align: center;" id="modal-title">Add a note</h5>
+		    	<!-- <div class="divider"></div> -->
+		    	<div class="progress divider">
+			      <div class="indeterminate" id="loading" style="display: none;"></div>
+			  </div>
+			    <div class="modal-content">
+			      <form class="col s12" action="/add_note/" action="POST" id="add_note">
+				      <div class="row" style="margin-bottom: 0px">
+				        <div class="input-field col s12">
+				          <textarea id="note" class="materialize-textarea" style="padding-bottom: 0px"></textarea>
+				          <label for="note">Write your note here</label>
+				        </div>
+				      </div>
+				      <div class="row">
+				      	<div class="file-field input-field">
+					      <div class="btn">
+					        <span>Choose file</span>
+					        <input type="file">
+					      </div>
+					      <div class="file-path-wrapper">
+					        <input class="file-path validate" type="text" id="filename">
+					      </div>
+					    </div>
+				      </div>
+    				<!-- 	<button type="submit">Upload</button> -->
+			    	</form>
+			    </div>
+			    <div class="footer" style="text-align: center;">
+			      <button onclick="$('#add_note').submit();" class="waves-effect waves-green modal-close btn-flat" style="margin-bottom: 20px;">Save</button>
+			      <!-- <button class="modal-action modal-close waves-effect waves-green btn-flat" style="margin-bottom: 20px;">Done</button> -->
+			    </div>
+
+		</div>
+		<div id="add_membermodal" class="modal" style="width: 40%;">
+	    	<h5 style="text-align: center;">Add a member to {{ group_name }}</h5>
+	    	<div class="divider"></div>
+		    <div class="modal-content">
+		      <form class="col s12" action="/add_member/" method="POST" id="add_member">
+			      <div class="row">
+			        <div class="input-field col s6" style="width: 100%">
+			          <input id="member" type="text" class="validate">
+			          <label for="member">Username</label>
+			          <input type="hidden" id="group_id" value="{{group_id}}">
+			        </div>
+			      </div>
+		    	</form>
+		    </div>
+		    <div class="footer" style="text-align: center;">
+		     <button id="memberbutton" type="submit" class="modal-action modal-close waves-effect waves-green btn-flat" style="margin-bottom: 20px;" onclick="$('#add_member').submit();"><i class="no-text"></i>Add</button>
+		    </div>
+		</div>
+		<div id="add_groupmodal" class="modal" style="width: 40%;">
+	    	<h5 style="text-align: center;">Create a new group</h5>
+	    	<div class="divider"></div>
+		    <div class="modal-content">
+		      <form class="col s12" action="/add_group/" method="POST" id="add_group">
+			      <div class="row">
+			        <div class="input-field col s6" style="width: 100%">
+			          <input id="groupname" type="text" class="validate">
+			          <label for="groupname">Group Name</label>
+			          <input type="hidden" id="user" value="{{user.id}}">
+			        </div>
+			      </div>
+		    	</form>
+		    </div>
+		    <div class="footer" style="text-align: center;">
+		     <button type="submit" class="modal-action modal-close waves-effect waves-green btn-flat" style="margin-bottom: 20px;" onclick="$('#add_group').submit();">Create Group</button>
+		    </div>
+		</div>
+{% endblock %}
+{% block script%}
+	<script src="{% static 'messages.js' %}"></script>
+{% endblock %}
