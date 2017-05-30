@@ -1,0 +1,18 @@
+<ul class="collapsible" data-collapsible="accordion" id="notes-list" style="overflow: auto; height: 97%">
+					    	{% csrf_token %}
+						    	{% for note in notes %}
+						    	<li class="box-list">
+								    <div class="collapsible-header" onclick="console.log('HEEEELOOOOO')">
+								    {% if note.new %}
+								    	<span class="new badge amber darken-4"></span>
+								    {% endif %}
+								    <form action="{% url 'delete' %}" method="POST" id="note-delete">
+								      	<input type="checkbox" id="{{note.id}}" name="note-list" value="{{note.id}}" />
+								      	<label for="{{note.id}}">{{note.note}}</label>
+								     </form>
+								    </div>
+								    <div class="collapsible-body"><span>{{note.note}}</span></div>
+							    </li>
+							    {% endfor %}
+							    
+						</ul>

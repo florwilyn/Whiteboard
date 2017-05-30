@@ -1,0 +1,7 @@
+
+	            {% for member in members %}
+		            <li>
+		            	<img class="member-img" src="{{ member.member.prof_pic.url }}">
+		            	<span class="users-list-name">{{member.member.first_name}}</span>
+		            </li>
+		        {% endfor %}

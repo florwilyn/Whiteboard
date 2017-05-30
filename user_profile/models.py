@@ -8,7 +8,7 @@ class Users(models.Model):
 	first_name = models.CharField(max_length=25)
 	last_name = models.CharField(max_length=25)
 	date_joined = models.DateTimeField(auto_now_add=True)
-	prof_pic = models.ImageField(upload_to = './storage/', default = 'Whiteboard/default-avatar.png')
+	prof_pic = models.ImageField(upload_to = './storage/', default = 'storage/default-avatar.png')
 
 	def __str__(self):
    		return "{} ".format(self.id) + self.first_name

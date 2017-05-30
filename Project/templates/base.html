@@ -19,7 +19,7 @@
     <li><a href="/">Profile</a></li>
     <li><a href="/edit_profile">Edit Profile</a></li>
     <li class="divider"></li>
-    <li><a href="#!">Sign out</a></li>
+    <li><a href="{% url 'signout' %}">Sign out</a></li>
   </ul>
   <ul id="groups" class="dropdown-content">
     {% for group in group %}
@@ -61,7 +61,7 @@
   <script type="text/javascript" src="{% static 'materialize/js/theme.js' %}"></script>
   <script type="text/javascript" src="{% static 'materialize/js/dropify.js' %}"></script>
   <script type="text/javascript" src="{% static 'materialize/js/dropify.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'sweetalert/sweetalert2.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'sweetalert/sweetalert2.min.js' %}"></script>
   <script src="{% static 'whiteboard.js' %}"></script>
   {% block script %}
   {% endblock %}

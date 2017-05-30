@@ -126,3 +126,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_ROOT = ''
 MEDIA_URL = '/media/'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "asgiref.inmemory.ChannelLayer",
+        "ROUTING": "Project.routing.channel_routing",
+    },
+}

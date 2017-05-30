@@ -9,7 +9,7 @@
 			<textarea id="wall" rows="7" style="height:auto; margin-top: 7px"></textarea>	    
 	    </div>
     </div>
-    <div class="card indigo lighten-5 height-fixed" style="margin-bottom: 0px">
+     <div class="card indigo lighten-5 height-fixed" style="margin-bottom: 0px">
 	    <div class="card-content black-text pull-down" style="padding: 5px;">
 	        <span class="card-title" style="margin-bottom: 15px"><b>Members</b><a class="btn-floating waves-effect waves-light teal darken-4 right" style=" margin-left: 5px"><i class="material-icons" style="margin-top: 3px;">add_alert</i></a><a class="btn-floating waves-effect waves-light teal darken-4 right" href="#add_membermodal" data-target="add_membermodal" style="margin-right: 5px"><i class="material-icons" style="margin-top: 3px">supervisor_account</i></a></span>
 	        <div class="divider" style="margin-top: 3px"></div>
@@ -30,7 +30,7 @@
 <div class="col s12 m6 l5 x-margin"> 
 	<div class="card indigo lighten-5 height-fixed-2">
 	    <div class="card-content black-text pull-down" style="padding: 5px">
-	        <span class="card-title" style="border-bottom-color: black; text-align: center;"><a class="btn-floating waves-effect waves-light right" style="margin-right: 5px; background-color: #f2395b"><i class="material-icons" style="margin-top: 3px">forum</i></a><b>{{ group_name }}</b></span>
+	        <span class="card-title" style="border-bottom-color: black"><a class="btn-floating waves-effect waves-light cyan darken-1 left" style="margin-right: 5px"><i class="material-icons" style="margin-top: 3px">forum</i></a><b>{{ group_name }}</b></span>
 	        <div class="divider"></div>
 	        <div class="chat" style="height: 91%">
 	            <ul style="overflow: auto; height: 100%" id="msg-list">
@@ -62,6 +62,7 @@
 			     <div class="divider"></div>
 	            <div class="footer green lighten-5">
 	            <form id="chat-form" method="post" action="/post/">
+	            {% csrf_token %}
 		            <input type="hidden" name="recipient_id" id="recipient_id" value= {{ group_id }}>
 	              <input type="hidden" name="sender_id" id="sender_id" value={{ user.user.id }}>
 		              <div class="input-field col s12 m4 l8" style="width: 87%;" id="chat-msg">
@@ -75,9 +76,9 @@
 	        </div>
 	    </div>
 	    <div class="col s12 m6 l3">
-	        <div class="card indigo lighten-5" style="height: 545px;">
+	        <div class="card indigo lighten-5" style="height: 570px;">
 	            <div class="card-content black-text pull-down" style="padding: 0px; height: 92%">
-	              <span class="card-title" style="padding: 5px"><b>Notes</b><a href="#add_notemodal" data-target="add_notemodal" class="btn-floating waves-effect waves-light cyan accent-4 right" style=" margin-left: 5px"><i class="material-icons" style="margin-top: 3px;">mode_edit</i></a><a class="btn-floating waves-effect waves-light red accent-4 right"><i class="material-icons" style="margin-top: 3px">delete</i></a></span>
+	              <span class="card-title" style="padding: 5px"><b>Notes</b><a href="#add_notemodal" data-target="add_notemodal" class="btn-floating waves-effect waves-light cyan accent-4 right" style=" margin-left: 5px"><i class="material-icons" style="margin-top: 3px;">mode_edit</i></a><a id= "delete-btn" class="btn-floating waves-effect waves-light red accent-4 right"><i class="material-icons" style="margin-top: 3px">delete</i></a></span>
 	              <!-- <a href="#" class=""><i class="mdi mdi-home material-icons right">delete</i></a></span> -->
 		                <!-- <ul class="collapsible popout collapsible-accordion" data-collapsible="accordion" id="notes-list" style="overflow: auto; height: 80%">
 		                {% for note in notes %}
@@ -89,19 +90,34 @@
 					   {% endfor %}
 					  </ul> -->
 					  
-					    <form action="#">
-					    <ul class="collapsible collapsible-accordion" data-collapsible="accordion" id="notes-list" style="overflow: auto; height: 80%">
-					    	{% for note in notes %}
-					    	<li class="box-list">
-						    <div class="collapsible-header">
-						      <input type="checkbox" id="{{note.id}}" />
-						      <label for="{{note.id}}">{{note.note}}</label>
-						    </div>
-						    <div class="collapsible-body"><span>{{note.note}}</span></div>
-						    </li>
-						    {% endfor %}
+					    <ul class="collapsible" data-collapsible="accordion" id="notes-list" style="overflow: auto; height: 97%">
+					    	{% csrf_token %}
+						    	{% for note in notes %}
+						    	<li class="box-list">
+								    <div class="collapsible-header" onclick="console.log('HEEEELOOOOO')">
+								    {% if note.new %}
+								    	<span class="new badge amber darken-4"></span>
+								    {% endif %}
+								    <form action="{% url 'delete' %}" method="POST" id="note-delete">
+								      	<input type="checkbox" id="{{note.id}}" name="note-list" value="{{note.id}}" />
+								      	<label for="{{note.id}}">{{note.note}}</label>
+								     </form>
+								    </div>
+								    <div class="collapsible-body"><span>{{note.note}}</span></div>
+							    </li>
+							    {% endfor %}
+							    
 						</ul>
-					  </form>
+						<!-- <ul class="collapsible" data-collapsible="accordion">
+  <li>
+    <div class="collapsible-header"><span class="new badge">4</span><i class="material-icons">filter_drama</i>First</div>
+    <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+  </li>
+  <li>
+    <div class="collapsible-header"><span class="badge">1</span><i class="material-icons">place</i>Second</div>
+    <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+  </li>
+</ul> -->
 	            </div>
 	            <!-- <div class="card-action center">
 	              <a href="#add_notemodal" data-target="add_notemodal">Add a note</a>
@@ -180,5 +196,171 @@
 		</div>
 {% endblock %}
 {% block script%}
+	<script src="{% static 'reconnect.js' %}"></script>
 	<script src="{% static 'messages.js' %}"></script>
+	<script type="text/javascript">
+
+	value = $("#recipient_id").val()
+	$("#note").text(value);
+	var supportsWebSockets = ('WebSocket' in window || 'MozWebSocket' in window) && WebSocket;
+        if(!supportsWebSockets){
+            console.log("Browser do not support Websockets!")
+        }else{
+            console.log("Proceed...")
+        }
+
+        var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+        // Calls the websocket connect channel
+        var chatsock = new ReconnectingWebSocket(ws_scheme + '://' + window.location.host + "/whiteboard/group/" + $("#recipient_id").val());
+
+        //For sending chat messages | AJAX, CHANNELS
+        $('#chat-form').on('submit', function(event){
+            event.preventDefault();
+                $.ajax({
+                    url : '/post/',
+                    type : 'POST',
+                    data : { msgbox : $('#message').val(),
+                             recipient: $('#recipient_id').val()   
+                            },
+
+                    success : function(json){
+                        $('#message').val('');
+                        message = {}
+                        message.text = "chat"
+                        message.command= 'send';
+                        message.room = $("#recipient_id").val();            
+                                   
+                        chatsock.send(JSON.stringify(message));
+
+                        var chatlist = document.getElementById('msg-list');
+                        chatlist.scrollTop = chatlist.scrollHeight;
+                	}
+                });
+               });
+
+        $('#add_note').on('submit', function(event){
+		    event.preventDefault();
+		    document.getElementById('loading').style.display = 'block';
+		    $.ajax({
+		        url : '/add_note/',
+		        type : 'POST',
+		        data : { note : $('#note').val(),
+		                 group: $('#group_id').val()   
+		                },
+
+		        success : function(json){
+		            // $('#add_membermodal').modal('hide');
+		            message = {}
+                    message.text = "note"
+                    message.command= 'send';
+                    message.room = $("#recipient_id").val();            
+                                   
+                    chatsock.send(JSON.stringify(message));
+		            // var chatlist = document.getElementById('notes-list');
+		            // chatlist.scrollTop = chatlist.scrollHeight;
+
+		            swal("Noted", "", "success")
+		        }
+		    });
+		});
+
+		$('#add_member').on('submit', function(event){
+		    event.preventDefault();
+		    $("#memberbutton").html('');
+		    // document.getElementByClass('no-text').style.display = 'block';
+		    $(".no-text").attr('class', 'fa fa-spinner fa-spin');
+
+		    $.ajax({
+		        url : '/add_member/',
+		        type : 'POST',
+		        data : { user : $('#member').val(),
+		                 group: $('#group_id').val()   
+		                },
+
+		        success : function(json){
+		            // $('#add_membermodal').modal('hide');
+		            // $('#members-list').append('<li><img class="member-img" src="'+json.photo+'"><span class="users-list-name">'+json.first_name+'</span></li>');
+		            message = {}
+                    message.text = "memb"
+                    message.command= 'send';
+                    message.room = $("#recipient_id").val();            
+                                   
+                    chatsock.send(JSON.stringify(message));
+
+                    if (json.error)
+                    	swal("Error", json.error, "success")
+                    else
+		            	swal(json.first_name, "has been added.", "success")
+		            // $("#memberbutton").html('Add');
+		        },
+		    //     error: function(){
+				  //   swal("Error", json.error, "success")
+				  // }
+		    });
+		});
+
+		$('#delete-btn').on('click', function(event){
+		    // event.preventDefault();
+		    // document.getElementByClass('no-text').style.display = 'block';
+		    $(".no-text").attr('class', 'fa fa-spinner fa-spin');
+
+		    var arr = [];
+		    $("input:checkbox[name=note-list]:checked").each(function(){
+			    arr.push($(this).val());
+			});
+			console.log(arr);
+
+		    $.ajax({
+		        url : '/delete_note/',
+		        type : 'POST',
+		        data : { notes : arr
+		                },
+
+		        success : function(json){
+		            // $('#add_membermodal').modal('hide');
+		            // $('#members-list').append('<li><img class="member-img" src="'+json.photo+'"><span class="users-list-name">'+json.first_name+'</span></li>');
+		            message = {}
+                    message.text = "note"
+                    message.command= 'send';
+                    message.room = $("#recipient_id").val();            
+                                   
+                    chatsock.send(JSON.stringify(message));
+
+		            swal("json.note", "Delete successful.", "success")
+		            // $("#memberbutton").html('Add');
+		        }
+		    });
+		});
+
+		chatsock.onopen = function(message) {
+            console.log("Connected");
+            message = {}
+            message.command= 'start'
+            message.text = 'none'
+                // prev: chat.receive
+            message.reply_channel = $("#recipient_id").val();
+            chatsock.send(JSON.stringify(message)); // START TALKING!
+        }
+            
+        chatsock.onmessage = function(message){
+            data = JSON.parse(message.data);
+            console.log("huhuhuhuu pls work" + data)
+
+            if (data['source'] == "chat"){
+            	getMessages();
+            }
+            else if (data['source'] == "note")
+            	getNotes();
+            else if (data['source'] == "memb")
+            	getMembers();
+        }
+
+        chatsock.onclose = function(message){
+        	console.log("Connection Closed")
+        }
+            
+        chatsock.onerror = function(message){
+            console.log("Error reconnecting ... ");
+        }
+</script>
 {% endblock %}
