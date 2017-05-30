@@ -22,7 +22,7 @@ def login(request):
 	if request.user.is_authenticated:
 		return redirect('/') # Or Base URL for Profile
 
-    if request.method == 'POST':
+	if request.method == 'POST':
 		username = request.POST.get('username')
 		password = request.POST.get('password')
 		user = authenticate(username=username, password=password)
@@ -43,16 +43,20 @@ def login(request):
 def signup(request):
 	# Note: On the HTML, see if you can add like a redirect to login if they have an account
 	if request.user.is_authenticated:
-        return redirect('/') # Or Base URL for Profile
-    context = {}
-    form = UserCreationForm()
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            context['success'] = True
-    else:
-        form = UserCreationForm()
-    context['form'] = form
+		return redirect('/') # Or Base URL for Profile
+	context = {}
+	form = UserCreationForm()
+	if (request.method == 'POST'):
+		form = UserCreationForm(request.POST)
+		if form.is_valid():
+			form.save()
+			context['success'] = True
+	else:
+		form = UserCreationForm()
+	context['form'] = form
 
 	return render(request, 'signup.html', context=context)
+
+def sign_out(request):
+    logout(request)
+    return redirect('sign_in')
