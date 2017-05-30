@@ -30,4 +30,5 @@ class Chat(models.Model):
 class Note(models.Model):
 	note = models.CharField(max_length=100)
 	owner = models.ForeignKey(Group,on_delete=models.CASCADE)
+	attachment = models.FileField(upload_to = './storage/',null=True)
 	new = models.BooleanField(default=True)

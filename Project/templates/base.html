@@ -17,7 +17,7 @@
 <body>
   <ul id="dropdown1" class="dropdown-content">
     <li><a href="/">Profile</a></li>
-    <li><a href="/edit_profile">Edit Profile</a></li>
+    <li><a href="{% url 'edit' %}">Edit Profile</a></li>
     <li class="divider"></li>
     <li><a href="{% url 'signout' %}">Sign out</a></li>
   </ul>
@@ -28,7 +28,7 @@
     <li class="divider"></li>
     <li><a href="#add_group" data-target="add_groupmodal">Create group</a></li>
   </ul>
-  <nav id="whiteboard" style="background-size: cover">
+  <nav id="whiteboard" style="background-size: cover" class="teal darken-4">
     <div class="nav-wrapper nav-wrap">
       <a href="#!" class="brand-logo logo-pad" style="margin-left: 90px"><b>Whiteboard</b></a>
       <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
@@ -53,6 +53,24 @@
     {% block content %}
     {% endblock %}
   </div>
+  <div id="add_groupmodal" class="modal" style="width: 40%;">
+        <h5 style="text-align: center;">Create a new group</h5>
+        <div class="divider"></div>
+        <div class="modal-content">
+          <form class="col s12" action="/add_group/" method="POST" id="add_group">
+            <div class="row">
+              <div class="input-field col s6" style="width: 100%">
+                <input id="groupname" type="text" class="validate">
+                <label for="groupname">Group Name</label>
+                <input type="hidden" id="user" value="{{user.id}}">
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="footer" style="text-align: center;">
+         <button type="submit" class="modal-action modal-close waves-effect waves-green btn-flat" style="margin-bottom: 20px;" onclick="$('#add_group').submit();">Create Group</button>
+        </div>
+    </div>
 </body>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
   <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
@@ -63,6 +81,7 @@
   <script type="text/javascript" src="{% static 'materialize/js/dropify.min.js' %}"></script>
   <script type="text/javascript" src="{% static 'sweetalert/sweetalert2.min.js' %}"></script>
   <script src="{% static 'whiteboard.js' %}"></script>
+  <script type="text/javascript"></script>
   {% block script %}
   {% endblock %}
 </html>

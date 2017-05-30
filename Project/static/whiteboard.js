@@ -78,7 +78,7 @@ $('#add_group').on('submit', function(event){
 
         success : function(json){
             $('#groups').prepend('<li><a href="/group/' + json.id + '">'+ json.newgroup +'</a></li>');
-            swal("A new meber added.", "Do you want to write another?", "success")
+            swal(json.newgroup, "has been created", "success")
         }
     });
 });

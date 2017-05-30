@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'^chat/(?P<group_id>\d+)/$', views.chat, name='chat'),
     url(r'^notes/(?P<group_id>\d+)/$', views.notes, name='chat'),
      url(r'^members/(?P<group_id>\d+)/$', views.members, name='members'),
+     url(r'^leave/(?P<group_id>\d+)/$', views.leave, name='leave'),
 ]

@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from whiteboard.models import Group
@@ -41,3 +42,69 @@ def signout(request):
 
 def signup(request):
 	return render(request, 'signup.html')
+
+def edit_profile(request):
+	if request.user.is_authenticated():
+		user_id = request.user.id
+		user = Users.objects.get(user__id=user_id)
+		group = Member.objects.filter(member__pk=user.pk)
+		return render(request, 'edit_profile.html', {'user': user, 'group': group})
+	else:
+		return redirect('signin')
+
+def edit(request):
+	if request.user.is_authenticated():
+		if request.method == 'POST':
+			user = Users.objects.get(user__id=request.user.id)
+			user_ = user.user
+
+			fname = request.POST.get('fname', None)
+			lname = request.POST.get('lname', None)
+			username = request.POST.get('username', None)
+			pic = request.FILES.get('myfile', None)
+
+			password = request.POST.get('password', None)
+
+			if fname != '':
+				user.first_name = fname
+				
+			if lname != '':
+				user.last_name = lname
+
+			if username != '':
+				user_.username = username
+				
+			if password != '':
+				user_.set_password(password)
+			if pic != '':
+				user.prof_pic = pic
+
+			user.save()
+			user_.save()
+
+			return redirect('/')
+
+def register(request):
+	if request.user.is_authenticated():
+		return redirect('/')
+	if request.method == "POST":
+		username = request.POST.get('username',None)
+		password = request.POST.get('password', None)
+
+		try:
+			user = User(username=username, password=password)
+			user.save()
+		except:
+			return redirect('signin')
+
+		fname = request.POST.get('fname', None)
+		lname = request.POST.get('lname', None)
+
+		new_user = Users(user=user,first_name=fname, last_name=lname)
+		new_user.save()
+
+		# u = authenticate(username=username, password=password)
+		login(request, user)
+
+		return redirect('edit')
+
