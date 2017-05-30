@@ -13,7 +13,7 @@ Functionalities:
 # FUTURE WORKS
 (1) Freedom Board - real time display of the texts typed by users
 (2) Personal Whiteboard - for each user
-(3) Real time notifications
+(3) Notifications
 
 # Screenshots
 ![Alt text](https://cloud.githubusercontent.com/assets/15725410/26603654/2cdbcac6-45ba-11e7-9638-7e6e13d423e9.png "Optional title")
