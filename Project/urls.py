@@ -27,7 +27,7 @@ urlpatterns = [
     url(r'^$', views.profile, name='home'),
     # url(r'^login/$', views.login),
     # url(r'^signup/$', views.signup),
-    url(r'^edit_profile/$', views.edit_profile),
-        url(r'^group/(?P<group_id>\d+)/$', views.index, name='group'),
+    # url(r'^edit_profile/$', views.edit_profile),
+    url(r'^group/(?P<group_id>\d+)/$', views.index, name='group'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

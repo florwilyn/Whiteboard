@@ -10,20 +10,20 @@
 			<!-- name -->
 			<h1 class="animate-in-01" style="margin: 10px">{{ user.first_name }} {{ user.last_name }}</h1>
 			<!-- title -->
-			<h2 class="animate-in-02">Member since {{user.date_joined}}</h2>
+			<h2 class="animate-in-02">Username: {{user.user.username}}</h2>
       
 			<!-- <hr class="animate-in-03">-->
 			<!-- bio -->
-			<p class="animate-in-04">Description</p>
+			<p class="animate-in-04" style="text-align: center;">Member since {{user.date_joined}}</p>
 
 			<!-- contact links -->
-			<span class="actions animate-in-05">
+			<!-- <span class="actions animate-in-05">
 
                 <a href="https://www.twitter.com/" target="_blank">Facebook</a>
                 <a href="https://www.dribbble.com/" target="_blank">Github</a>
                 <a href="https://www.behance.net/" target="_blank">Twitter</a>
 
-            </span>
+            </span> -->
 
 </div>
 {% endblock %}
